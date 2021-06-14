@@ -1,2 +1,3 @@
 from django.db import models
-from apps.users.models.users import *
+from .users import *
+from .profiles import *
