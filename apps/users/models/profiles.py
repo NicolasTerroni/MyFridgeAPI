@@ -6,13 +6,22 @@ from django.db import models
 # Models
 from apps.users.models.users import User
 
-class Profile(models.Model):
+# Utilities
+from apps.utils.models import TimeStamp
+
+
+class Profile(TimeStamp, models.Model):
     """Users profile model"""
 
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
         primary_key=True,
+    )
+    picture = models.ImageField(
+        upload_to='profiles/pictures', 
+        blank=True, 
+        null=True
     )
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
@@ -23,4 +32,4 @@ class Profile(models.Model):
 
 
     def __str__(self):
-        return f'{self.first_name} {self.first_name}'
+        return f'{self.first_name} {self.last_name}'

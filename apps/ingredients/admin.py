@@ -1,4 +1,4 @@
-"""Users admin configuration."""
+"""Ingredients admin configuration."""
 
 # Django
 from django.contrib import admin

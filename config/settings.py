@@ -29,14 +29,17 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # DRF
+    # Third party
     'rest_framework',
+    'django_filters',
+    'django_extensions',
 
     # Local
     'apps.users',
     'apps.utils',
     'apps.ingredients',
-    'apps.recipes'
+    'apps.recipes',
+    'apps.fridges'
 ]
 
 AUTH_USER_MODEL = 'users.User'
@@ -119,3 +122,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Media
+MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_URL = '/media/'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+    ]
+}

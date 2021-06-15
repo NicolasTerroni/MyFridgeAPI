@@ -9,7 +9,7 @@ from apps.utils.models import TimeStamp
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, password=None):
+    def create_user(self, email, password=None, *args, **kwargs):
         """
         Creates and saves a User with the given email and password.
         """
@@ -54,7 +54,7 @@ class User(AbstractBaseUser, TimeStamp):
 
     is_admin = models.BooleanField(default=False)
     is_verified = models.BooleanField(
-        'verified',
+        'is_verified',
         default=False,
         help_text=(
             'Set to True when the user have verified its email address.'

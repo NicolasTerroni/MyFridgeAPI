@@ -15,12 +15,16 @@ class Recipe(TimeStamp):
     """
 
     name = models.CharField(unique=True, max_length=50)
-    picture = models.ImageField(blank=True, null=True)
+    picture = models.ImageField(
+        upload_to='recipes/pictures', 
+        blank=True, 
+        null=True
+    )
     description = models.TextField(blank=True, max_length=150)
 
     instructions = models.TextField(blank=True)
 
-    ingredients = models.ManyToManyField("ingredients.Ingredient",related_name='ingredients')
+    ingredients = models.ManyToManyField("ingredients.Ingredient",related_name='recipe_ingredients')
 
     is_veggie = models.BooleanField(default=False)
     is_vegan = models.BooleanField(default=False)
