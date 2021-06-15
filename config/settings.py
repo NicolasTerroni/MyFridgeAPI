@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     # Local
     'apps.users',
     'apps.utils',
+    'apps.ingredients',
 ]
 
 AUTH_USER_MODEL = 'users.User'
