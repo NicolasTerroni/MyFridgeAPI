@@ -31,5 +31,19 @@ class Ingredient(TimeStamp):
         help_text='Ingredients that do not come from animals.'
     )
 
+    # Maybe add booleans to classify them better, for example: dairy, fish, ...
+
     def __str__(self):
         return self.name
+
+"""
+    gluten_free = models.BooleanField(
+        default=True,
+        help_text='Ingredients that are suitable for celiacs (gluten free).'
+    )
+
+    lactose_free = models.BooleanField(
+        default=True,
+        help_text='Ingredients that are lactose free.'
+    )
+"""

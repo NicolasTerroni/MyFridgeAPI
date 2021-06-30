@@ -28,8 +28,10 @@ class Profile(TimeStamp, models.Model):
 
     biography = models.TextField(max_length=500,blank=True)
 
+    # Stats
+    # created_recipes = ...
     # favourite_recipes = ...
-
+    
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'

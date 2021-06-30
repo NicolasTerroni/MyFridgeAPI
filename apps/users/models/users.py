@@ -53,6 +53,17 @@ class User(AbstractBaseUser, TimeStamp):
     USERNAME_FIELD = 'email'
 
     is_admin = models.BooleanField(default=False)
+
+    is_active = models.BooleanField(
+        ('active'),
+        default=True,
+        help_text=(
+            'Designates whether this user should be treated as active. '
+            'Unselect this instead of deleting accounts.'
+        ),
+    )
+
+    # this is for a future account verification function
     is_verified = models.BooleanField(
         'is_verified',
         default=False,
@@ -66,6 +77,7 @@ class User(AbstractBaseUser, TimeStamp):
     def __str__(self):
         return self.email
 
+""" 
     def has_perm(self, perm, obj=None):
         "Does the user have a specific permission?"
         return True
@@ -78,3 +90,4 @@ class User(AbstractBaseUser, TimeStamp):
     def is_staff(self):
         "Is the user a member of staff?"
         return self.is_admin
+"""

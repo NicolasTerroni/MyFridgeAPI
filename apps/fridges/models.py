@@ -23,5 +23,7 @@ class Fridge(TimeStamp):
 
     ingredients = models.ManyToManyField("ingredients.Ingredient",related_name='fridge_ingredients')
 
+    # How to save the ingredients amount?
+
     def __str__(self):
         return f'{self.owner}'
