@@ -11,9 +11,15 @@ from rest_framework.validators import UniqueValidator
 # Models
 from rest_framework.authtoken.models import Token
 
+# Serializers
+from apps.users.serializers.profiles import ProfileModelSerializer
+
 
 class UserModelSerializer(serializers.ModelSerializer):
     """User model serializer."""
+
+    profile = ProfileModelSerializer(read_only=True)
+
     class Meta:
         """Meta class"""
         model = User
@@ -22,7 +28,8 @@ class UserModelSerializer(serializers.ModelSerializer):
             'email',
             'is_admin',
             'is_verified',
-            'is_active'
+            'is_active',
+            'profile'
         )
 
 

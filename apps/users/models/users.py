@@ -77,7 +77,6 @@ class User(AbstractBaseUser, TimeStamp):
     def __str__(self):
         return self.email
 
-""" 
     def has_perm(self, perm, obj=None):
         "Does the user have a specific permission?"
         return True
@@ -90,4 +89,3 @@ class User(AbstractBaseUser, TimeStamp):
     def is_staff(self):
         "Is the user a member of staff?"
         return self.is_admin
-"""

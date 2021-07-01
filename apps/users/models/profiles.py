@@ -30,8 +30,9 @@ class Profile(TimeStamp, models.Model):
 
     # Stats
     # created_recipes = ...
+    # created_ingredients = ...
     # favourite_recipes = ...
     
 
     def __str__(self):
-        return f'{self.first_name} {self.last_name}'
+        return str(self.user)
