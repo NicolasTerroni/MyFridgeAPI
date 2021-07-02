@@ -15,6 +15,7 @@ class Ingredient(TimeStamp):
     """
 
     name = models.CharField(unique=True, max_length=50)
+    created_by = models.ForeignKey("users.User",on_delete=models.SET_NULL,null=True)
     picture = models.ImageField(
         upload_to='ingredients/pictures', 
         blank=True, 
