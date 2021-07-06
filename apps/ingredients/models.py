@@ -21,15 +21,13 @@ class Ingredient(TimeStamp):
         blank=True, 
         null=True
     )    
-    description = models.TextField()
+    description = models.TextField(blank=True)
 
     is_veggie = models.BooleanField(
-        default=False,
-        help_text='Ingredients that do not contain meat or derivatives.'
+        help_text='Ingredients that do not contain meat or derivatives.',
     )
     is_vegan = models.BooleanField(
-        default=False,
-        help_text='Ingredients that do not come from animals.'
+        help_text='Ingredients that do not come from animals.',
     )
 
     # Maybe add booleans to classify them better, for example: dairy, fish, ...
