@@ -1,6 +1,7 @@
 """Users serializers"""
 
 # Django
+from apps.fridges.models.fridges import Fridge
 from apps.users.models import User, Profile
 from django.contrib.auth import authenticate, password_validation
 
@@ -90,6 +91,7 @@ class UserSignUpSerializer(serializers.Serializer):
         data.pop('password_confirmation')
         user = User.objects.create_user(**data, is_verified=False) #for the account verification function
         Profile.objects.create(user=user)
+        Fridge.objects.create(owner=user)
 
         # here the confirmation email would be sent, and that would generate an 
         # account verification token, after the account verification, the user would be allowed
