@@ -8,4 +8,4 @@ from .models import Fridge
 
 @admin.register(Fridge)
 class FridgeAdmin(admin.ModelAdmin):
-    list_display = ('name','owner')
+    list_display = ('owner',)

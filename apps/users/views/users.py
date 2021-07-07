@@ -23,11 +23,11 @@ from apps.users.serializers import (UserLoginSerializer,
 
 
 class UserViewSet(RetrieveModelMixin,UpdateModelMixin,GenericViewSet):
-    """User  model viewset."""
+    """User model viewset."""
 
-    queryset = User.objects.all()
+    queryset = User.objects.all() # is_active=True
     serializer_class = UserModelSerializer
-    lookup_field = 'pk'
+    lookup_field = 'username'
 
     def get_permissions(self):
         """Assign permissions based on actions."""

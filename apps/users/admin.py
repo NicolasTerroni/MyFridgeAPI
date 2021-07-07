@@ -8,7 +8,7 @@ from .models import User, Profile
 
 
 class UserAdmin(admin.ModelAdmin):
-    list_display = ('email', 'is_admin', 'is_active')
+    list_display = ('id','email','username','is_admin', 'is_active')
 
 admin.site.register(User, UserAdmin)
 
