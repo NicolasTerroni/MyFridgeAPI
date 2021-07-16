@@ -1,6 +1,7 @@
 """Fridges views"""
 
 # Django REST Framework
+from apps.fridges.models.fridges import Fridge
 from rest_framework import viewsets, mixins
 
 # Serializers
@@ -15,5 +16,7 @@ class FridgesViewSet(   viewsets.GenericViewSet,
                         mixins.RetrieveModelMixin, 
                         mixins.UpdateModelMixin):
     """Fridges viewset."""
-    permission_classes = [IsAuthenticated, IsFridgeOwner]
+    permission_classes = [IsAuthenticated,IsFridgeOwner]
     serializer_class = FridgeModelSerializer
+    queryset = Fridge.objects.all()
+    lookup_field = 'owner'

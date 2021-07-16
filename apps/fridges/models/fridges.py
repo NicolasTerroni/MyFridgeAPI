@@ -6,10 +6,6 @@ from django.db import models
 # Utilities
 from apps.utils.models import TimeStamp
 
-# Models
-from apps.fridges.models.conteins import Contein
-
-
 class Fridge(TimeStamp):
     """
     Fridge model.
@@ -25,7 +21,6 @@ class Fridge(TimeStamp):
     ingredients = models.ManyToManyField(
         "ingredients.Ingredient",
         related_name='fridge_ingredients',
-        through='fridges.Contein',
         blank=True)
 
     def __str__(self):
