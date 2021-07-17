@@ -14,7 +14,7 @@ from apps.users.serializers import UserModelSerializer
 class IngredientModelSerializer(serializers.ModelSerializer):
     """Profile model serializer."""
 
-    created_by = UserModelSerializer(read_only=True)
+    created_by = serializers.StringRelatedField()
 
     class Meta:
         """Meta class"""
@@ -22,6 +22,7 @@ class IngredientModelSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'name',
+            'slug_name',
             'created_by',
             'picture',
             'description',
@@ -38,13 +39,19 @@ class CreateIngredientSerializer(serializers.ModelSerializer):
             queryset = Ingredient.objects.all(),
             message = "This ingredient was already created.")],
     )
-    created_by = UserModelSerializer(read_only=True)
+    slug_name = serializers.CharField(
+        validators= [UniqueValidator(
+            queryset = Ingredient.objects.all(),
+            message = "This slug name was already used.")],
+    )
+    created_by = serializers.StringRelatedField() # make Stringrelated
 
     class Meta:
         model = Ingredient
         fields = (
             'id',
             'name',
+            'slug_name',
             'created_by',
             'picture',
             'description',

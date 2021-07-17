@@ -1,11 +1,11 @@
-name,description,is_veggie,is_vegan
-"Eggs","Chicken eggs",0,1
-"Rice","White rice",1,1
-"Potatoe","Potatoe",1,1
-"Burguer","Meat burguer",0,0
-"Chicken","Chicken meat",0,0
-"Milk","Cow milk",0,1
-"Tomatoe","Tomatoe",1,1
-"Nutmeg","Nutmeg",1,1
-"Ham","Ham",0,0
-"Cheese in slices","Cheese in slices",0,1
+name,slug_name,description,is_veggie,is_vegan
+"Eggs","eggs","Chicken eggs",0,1
+"Rice","rice","White rice",1,1
+"Potatoe","potatoe","Potatoe",1,1
+"Burguer","burger","Meat burguer",0,0
+"Chicken","chicken","Chicken meat",0,0
+"Milk","cow_milk","Cow milk",0,1
+"Tomatoe","tomatoe","Tomatoe",1,1
+"Nutmeg","numteg","Nutmeg",1,1
+"Ham","ham","Ham",0,0
+"Cheese in slices","cheese_slices","Cheese in slices",0,1

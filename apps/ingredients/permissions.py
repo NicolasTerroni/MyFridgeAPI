@@ -8,4 +8,6 @@ class IsIngredientOwner(BasePermission):
 
     def has_object_permission(self,request,view,obj):
         """Check out if object creator and user are the same."""
+        if not obj.created_by:
+            return False
         return request.user == obj.created_by

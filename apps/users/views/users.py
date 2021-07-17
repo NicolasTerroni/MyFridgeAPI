@@ -77,15 +77,15 @@ class UserViewSet(RetrieveModelMixin,UpdateModelMixin,GenericViewSet):
         data = UserModelSerializer(user).data
         return Response(data, status=status.HTTP_201_CREATED)
     
-    @action(detail=True,methods=['put','patch'])
+    @action(detail=True,methods=['patch'])
     def fridge(self, request, *args, **kwargs):
+        """Handle user's fridge (only partial update is allowed)."""
         user = self.get_object()
         fridge = user.fridge
-        partial = request.method == 'PATCH' 
         serializer = FridgeModelSerializer(
             fridge,
             data=request.data,
-            partial=partial
+            partial=True
         )
         serializer.is_valid(raise_exception=True)
         serializer.save()

@@ -15,7 +15,8 @@ class Ingredient(TimeStamp):
     """
 
     name = models.CharField(unique=True, max_length=50)
-    created_by = models.ForeignKey("users.User",on_delete=models.SET_NULL,null=True)
+    slug_name = models.SlugField(unique=True, max_length=20)
+    created_by = models.ForeignKey("users.User",on_delete=models.SET_NULL,null=True,blank=True)
     picture = models.ImageField(
         upload_to='ingredients/pictures', 
         blank=True, 
@@ -33,7 +34,7 @@ class Ingredient(TimeStamp):
     # Maybe add booleans to classify them better, for example: dairy, fish, ...
 
     def __str__(self):
-        return self.name
+        return self.slug_name
 
 """
     gluten_free = models.BooleanField(

@@ -18,12 +18,12 @@ class IngredientsViewSet(ModelViewSet):
     """Ingredients viewset."""
 
     queryset = Ingredient.objects.all()
-    lookup_field = 'pk'
+    lookup_field = 'slug_name'
 
     def get_permissions(self):
         """Assign permissions based on action."""
         permissions = [IsAuthenticated,]
-        if self.action in ['update','partial_update','delete']:
+        if self.action in ['update','partial_update','destroy']:
             permissions.append(IsIngredientOwner)
         return [permission() for permission in permissions]
 

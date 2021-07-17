@@ -1,6 +1,7 @@
 """Fridges serializers."""
 
 # Models
+from apps.ingredients.models import ingredients
 from apps.users.models import Fridge
 
 # Django REST Framework
@@ -11,7 +12,7 @@ from rest_framework import serializers
 
 class FridgeModelSerializer(serializers.ModelSerializer):
     """Fridge model serializer."""
-
+    
     class Meta:
         """Meta class"""
         model = Fridge
