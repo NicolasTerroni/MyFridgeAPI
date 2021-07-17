@@ -1,8 +1,7 @@
 """Fridges serializers."""
 
 # Models
-from apps.fridges.models import Fridge
-from apps.users.models import User
+from apps.users.models import Fridge
 
 # Django REST Framework
 from rest_framework import serializers
@@ -12,10 +11,9 @@ from rest_framework import serializers
 
 class FridgeModelSerializer(serializers.ModelSerializer):
     """Fridge model serializer."""
-    owner = serializers.StringRelatedField(read_only=True)
 
     class Meta:
         """Meta class"""
         model = Fridge
-        fields = ('owner','ingredients')
+        fields = ('ingredients',)
         extra_kwargs = {'ingredients': {'required': False}}

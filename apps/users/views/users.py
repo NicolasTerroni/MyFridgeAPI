@@ -19,7 +19,8 @@ from apps.users.models import User
 from apps.users.serializers import (UserLoginSerializer, 
                                     UserModelSerializer, 
                                     UserSignUpSerializer, 
-                                    ProfileModelSerializer)
+                                    ProfileModelSerializer,
+                                    FridgeModelSerializer)
 
 
 class UserViewSet(RetrieveModelMixin,UpdateModelMixin,GenericViewSet):
@@ -33,7 +34,7 @@ class UserViewSet(RetrieveModelMixin,UpdateModelMixin,GenericViewSet):
         """Assign permissions based on actions."""
         if self.action in ['signup','login']:  # ,'verify'
             permissions = [AllowAny]
-        elif self.action in ['retrieve','update','partial_update','profile']:
+        elif self.action in ['retrieve','update','partial_update','profile','fridge']:
             permissions = [IsAuthenticated, IsAccountOwner]
         else:
             permissions = [IsAuthenticated]
@@ -75,7 +76,21 @@ class UserViewSet(RetrieveModelMixin,UpdateModelMixin,GenericViewSet):
         serializer.save()
         data = UserModelSerializer(user).data
         return Response(data, status=status.HTTP_201_CREATED)
-
+    
+    @action(detail=True,methods=['put','patch'])
+    def fridge(self, request, *args, **kwargs):
+        user = self.get_object()
+        fridge = user.fridge
+        partial = request.method == 'PATCH' 
+        serializer = FridgeModelSerializer(
+            fridge,
+            data=request.data,
+            partial=partial
+        )
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        data = UserModelSerializer(user).data
+        return Response(data, status=status.HTTP_201_CREATED)
 
 
 """

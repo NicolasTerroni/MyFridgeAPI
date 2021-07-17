@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'apps.utils',
     'apps.ingredients',
     'apps.recipes',
-    'apps.fridges'
 ]
 
 AUTH_USER_MODEL = 'users.User'

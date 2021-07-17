@@ -1,8 +1,7 @@
 """Users serializers"""
 
 # Django
-from apps.fridges.models.fridges import Fridge
-from apps.users.models import User, Profile
+from apps.users.models import User, Profile, Fridge
 from django.contrib.auth import authenticate, password_validation
 
 # Django REST Framework
@@ -14,12 +13,14 @@ from rest_framework.authtoken.models import Token
 
 # Serializers
 from apps.users.serializers.profiles import ProfileModelSerializer
+from apps.users.serializers.fridges import FridgeModelSerializer
 
 
 class UserModelSerializer(serializers.ModelSerializer):
     """User model serializer."""
 
     profile = ProfileModelSerializer(read_only=True)
+    fridge = FridgeModelSerializer(read_only=True)
 
     class Meta:
         """Meta class"""
@@ -31,7 +32,8 @@ class UserModelSerializer(serializers.ModelSerializer):
             'is_admin',
             'is_verified',
             'is_active',
-            'profile'
+            'profile',
+            'fridge'
         )
 
 

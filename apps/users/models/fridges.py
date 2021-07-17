@@ -3,6 +3,9 @@
 # Django
 from django.db import models
 
+# Models
+from apps.users.models import User
+
 # Utilities
 from apps.utils.models import TimeStamp
 
@@ -13,14 +16,14 @@ class Fridge(TimeStamp):
     Fridges are what contains user's ingredients,
     Depending on the ingredients that it contains, the corresponding recipes will be displayed.
     """
-    owner = models.ForeignKey(
-        'users.User',
+    owner = models.OneToOneField(
+        User,
         on_delete=models.CASCADE,
-        related_name='owner'
+        primary_key=True,
     )
     ingredients = models.ManyToManyField(
         "ingredients.Ingredient",
-        related_name='fridge_ingredients',
+        related_name='ingredients',
         blank=True)
 
     def __str__(self):
