@@ -1,21 +1,22 @@
-"""Ingredients serializers."""
+"""Recipes serializers."""
 
 # Models
-from apps.ingredients.models import Ingredient
+from apps.ingredients.models import ingredients
+from apps.recipes.models import Recipe
 
 # Django REST Framework
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
 
-class IngredientModelSerializer(serializers.ModelSerializer):
-    """Ingredient model serializer."""
+class RecipeModelSerializer(serializers.ModelSerializer):
+    """Recipes model serializer."""
 
     created_by = serializers.StringRelatedField()
 
     class Meta:
         """Meta class"""
-        model = Ingredient
+        model = Recipe
         fields = (
             'id',
             'name',
@@ -23,28 +24,32 @@ class IngredientModelSerializer(serializers.ModelSerializer):
             'created_by',
             'picture',
             'description',
+            'instructions',
+            'ingredients',
             'is_veggie',
             'is_vegan'
         )
+        extra_kwargs = {'ingredients': {'required': False}}
 
 
-class CreateIngredientSerializer(serializers.ModelSerializer):
-    """Handle the ingredient creation."""
+class CreateRecipeSerializer(serializers.ModelSerializer):
+    """Handle the recipes creation."""
 
     name = serializers.CharField(
         validators= [UniqueValidator(
-            queryset = Ingredient.objects.all(),
-            message = "This ingredient was already created.")],
+            queryset = Recipe.objects.all(),
+            message = "This recipe was already created.")],
     )
     slug_name = serializers.CharField(
         validators= [UniqueValidator(
-            queryset = Ingredient.objects.all(),
+            queryset = Recipe.objects.all(),
             message = "This slug name was already used.")],
     )
     created_by = serializers.StringRelatedField() 
 
+
     class Meta:
-        model = Ingredient
+        model = Recipe
         fields = (
             'id',
             'name',
@@ -52,6 +57,8 @@ class CreateIngredientSerializer(serializers.ModelSerializer):
             'created_by',
             'picture',
             'description',
+            'instructions',
+            'ingredients',
             'is_veggie',
             'is_vegan'
             )

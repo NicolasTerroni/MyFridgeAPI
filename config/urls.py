@@ -11,5 +11,6 @@ urlpatterns = [
     
     path('',include(('apps.users.urls','users'), namespace='users')),
     path('',include(('apps.ingredients.urls','ingredients'), namespace='ingredients')),
+    path('',include(('apps.recipes.urls','recipes'), namespace='recipes')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
