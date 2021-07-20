@@ -14,18 +14,22 @@ class Recipe(TimeStamp):
     they contain a list of ingredients.
     """
     name = models.CharField(unique=True, max_length=50)
-    # created_by = ... 
+    slug_name = models.SlugField(unique=True, max_length=20)
+    created_by = models.ForeignKey("users.User",on_delete=models.SET_NULL,null=True,blank=True)
+
     picture = models.ImageField(
         upload_to='recipes/pictures', 
         blank=True, 
         null=True
     )
-    description = models.TextField(blank=True, max_length=150)
+    description = models.CharField(blank=True, max_length=150)
 
     instructions = models.TextField(blank=True)
 
-    ingredients = models.ManyToManyField("ingredients.Ingredient",related_name='recipe_ingredients')
-    # How to save the ingredients amount?
+    ingredients = models.ManyToManyField(
+        "ingredients.Ingredient",
+        related_name='recipe_ingredients',
+    )    
 
     is_veggie = models.BooleanField(
         default=False,
@@ -39,7 +43,7 @@ class Recipe(TimeStamp):
     # rating = ...
     
     def __str__(self):
-        return self.name
+        return self.slug_name
 
 """
     gluten_free = models.BooleanField(

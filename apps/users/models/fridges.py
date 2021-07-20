@@ -23,7 +23,7 @@ class Fridge(TimeStamp):
     )
     ingredients = models.ManyToManyField(
         "ingredients.Ingredient",
-        related_name='ingredients',
+        related_name='fridge_ingredients',
         blank=True)
 
     def __str__(self):

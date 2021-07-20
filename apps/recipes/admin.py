@@ -8,4 +8,6 @@ from .models import Recipe
 
 @admin.register(Recipe)
 class RecipeAdmin(admin.ModelAdmin):
-    list_display = ('name', 'picture', 'instructions', 'is_veggie', 'is_vegan')
+    filter_horizontal = ('ingredients',)
+    list_display = ('name','slug_name', 'picture', 'instructions', 'is_veggie', 'is_vegan')
+
