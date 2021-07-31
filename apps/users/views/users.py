@@ -9,7 +9,6 @@ from rest_framework import status
 
 # Permissions
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from apps.users import serializers
 from apps.users.permissions import IsAccountOwner
 
 # Models
