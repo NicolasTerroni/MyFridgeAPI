@@ -2,7 +2,7 @@
 
 MyFridge will be a simple rest API implemented with Django REST Framework and MongoDB thought for those people who never know what to cook, like me :) 
 
-Users would be able to: 
+Users will be able to: 
 - Sign up
 - Sign in
 - Access and update their user detail
