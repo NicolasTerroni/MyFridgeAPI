@@ -58,7 +58,6 @@ class User(AbstractBaseUser, TimeStamp):
             'unique': ("A user with that username already exists."),
         },
     )
-    
     REQUIRED_FIELDS = ('username',)
     USERNAME_FIELD = 'email'
 
@@ -72,7 +71,6 @@ class User(AbstractBaseUser, TimeStamp):
             'Unselect this instead of deleting accounts.'
         ),
     )
-
     # this is for a future account verification function
     is_verified = models.BooleanField(
         'is_verified',
@@ -81,13 +79,11 @@ class User(AbstractBaseUser, TimeStamp):
             'Set to True when the user have verified its email address.'
         ),
     )
-
     objects = UserManager()
 
     def __str__(self):
         """Return username"""
         return self.username
-
 
     def get_short_name(self):
         """Return username"""
@@ -105,3 +101,4 @@ class User(AbstractBaseUser, TimeStamp):
     def is_staff(self):
         "Is the user a member of staff?"
         return self.is_admin
+
