@@ -11,7 +11,7 @@ from apps.ingredients.models import Ingredient
 
 
 class TestViews(APITestCase):
-    """Ingredients CRUD tests"""
+    """Ingredients views tests"""
 
     def setUp(self):
         self.user = User.objects.create(
@@ -61,6 +61,7 @@ class TestViews(APITestCase):
     def test_ingredient_detail(self):
         response = self.client.get(self.ingredients_slug_url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['slug_name'], self.ingredient.slug_name)
 
     def test_update_ingredient(self):
         response = self.client.put(
@@ -95,8 +96,3 @@ class TestViews(APITestCase):
         self.assertEqual(Ingredient.objects.all().count(), 0)
 
 
-
-
-
-
-#import ipdb; ipdb.set_trace()
