@@ -63,6 +63,7 @@ class TestViews(APITestCase):
         self.possible_recipes_url = "/recipes/possible_recipes/"
         self.my_recipes_url = "/recipes/my_recipes/"
 
+
     def test_recipe_creation(self):
         response = self.client.post(
             self.recipes_url,
@@ -98,7 +99,10 @@ class TestViews(APITestCase):
             },
             format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertNotEqual(previous_ingredients, Recipe.objects.get(slug_name="mashed_potatoes").ingredients.all())
+        self.assertNotEqual(
+            previous_ingredients, 
+            Recipe.objects.get(slug_name="mashed_potatoes").ingredients.all()
+        )
         self.assertEqual(Recipe.objects.all().count(), 1)
 
     def test_partial_update_recipe(self):
@@ -110,7 +114,10 @@ class TestViews(APITestCase):
             },
             format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertNotEqual(previous_ingredients, Recipe.objects.get(slug_name=self.recipe.slug_name).ingredients.all())
+        self.assertNotEqual(
+            previous_ingredients, 
+            Recipe.objects.get(slug_name=self.recipe.slug_name).ingredients.all()
+        )
         self.assertEqual(Recipe.objects.all().count(), 1)
 
     def test_delete_recipe(self):
@@ -120,22 +127,23 @@ class TestViews(APITestCase):
         self.assertEqual(Recipe.objects.all().count(), 0)
 
     def test_list_fridge_ingredients_recipes(self):
-        # add an ingredient to user's fridge
+        # Add an ingredient to user's fridge
         self.user_fridge.ingredients.set([self.third_ingredient.id,])
-        # create a recipe that contain the user fridge ingredient
-        user_fridge_recipe = Recipe.objects.create(
+        # Create a recipe that contain the user fridge ingredient
+        user_possible_recipe = Recipe.objects.create(
             name="user fridge recipe",
             slug_name="user_fridge_recipe",
             created_by=self.user
         )
-        user_fridge_recipe.ingredients.set([self.third_ingredient.id,self.second_ingredient.id])
-        # our setUp recipe does not contain the user fridge ingredient
+        user_possible_recipe.ingredients.set([self.third_ingredient.id,self.second_ingredient.id])
+        # Our setUp recipe does not contain the user fridge ingredient
         response = self.client.get(self.possible_recipes_url)
-        
+
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertIn(self.third_ingredient, user_fridge_recipe.ingredients.all())
+        self.assertIn(self.third_ingredient, user_possible_recipe.ingredients.all())
         self.assertIn(self.third_ingredient, self.user.fridge.ingredients.all())
         self.assertEqual(response.data['count'], 1)
+        # Just 'user_possible_recipe', setUp recipe must not be returned
 
     def test_list_user_recipes(self):
         Recipe.objects.create(
@@ -149,5 +157,8 @@ class TestViews(APITestCase):
         )
         response = self.client.get(self.my_recipes_url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data['count'], Recipe.objects.filter(created_by=self.user).count())
+        self.assertEqual(
+            response.data['count'], 
+            Recipe.objects.filter(created_by=self.user).count()
+        )
 

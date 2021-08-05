@@ -28,15 +28,14 @@ class TestViews(APITestCase):
                     is_vegan=True
         )
         # Auth
-        self.token = Token.objects.create(user=self.user).key
-        self.client.credentials(HTTP_AUTHORIZATION=f'Token {self.token}')
+        self.user_token = Token.objects.create(user=self.user).key
+        self.client.credentials(HTTP_AUTHORIZATION=f'Token {self.user_token}')
 
         # URLs
         self.ingredients_url = "/ingredients/"
         self.ingredients_slug_url = f"/ingredients/{self.ingredient.slug_name}/"
 
     def test_ingredient_creation(self):
-        
         response = self.client.post(
             self.ingredients_url,
             {
@@ -47,7 +46,6 @@ class TestViews(APITestCase):
                 "is_vegan": True
             },
             format="json")
-
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Ingredient.objects.count(), 2) # setUp ingredient + this one
         self.assertEqual(response.data['name'], "Nutmeg")

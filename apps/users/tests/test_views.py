@@ -13,8 +13,6 @@ class TestNoAuthViews(APITestCase):
     """Users sign up and login tests."""
 
     def setUp(self):
-        self.signup_url = "/users/signup/"
-        self.login_url = "/users/login/"
 
         self.user_data = {
             "email": "test@email.com",
@@ -22,7 +20,9 @@ class TestNoAuthViews(APITestCase):
             "password": "testpass1",
             "password_confirmation": "testpass1",
         }
-
+        # URLs
+        self.signup_url = "/users/signup/"
+        self.login_url = "/users/login/"
 
     def test_cant_signup(self):
         # Cant sign up without data
@@ -35,27 +35,26 @@ class TestNoAuthViews(APITestCase):
             self.user_data, 
             format="json"
         )
-        # Ensure response data == request data
+        # Ensure request data was sent
         self.assertEqual(response.data['email'], self.user_data['email'])
         self.assertEqual(response.data['username'], self.user_data['username'])
         # Ensure fridge and profile where created
         self.assertIsInstance(response.data['profile'], dict)
         self.assertIsInstance(response.data['fridge'], dict)
-
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_cant_login(self):
-        # Sign up
+        # Sign up to create a user correctly
         self.client.post(
             self.signup_url, 
             self.user_data, 
             format="json"
         )
-        # Sign in without data
+        # Ensure user can't login without sending data
         response = self.client.post(self.login_url)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
-        # Sign in with invalid credentials
+        # Ensure user can't login with invalid credentials
         response = self.client.post(
             self.login_url, 
             {
@@ -66,7 +65,7 @@ class TestNoAuthViews(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_login(self):
-        # Sign up
+        # Sign up to create a user correctly
         self.client.post(
             self.signup_url, 
             self.user_data, 
@@ -81,8 +80,8 @@ class TestNoAuthViews(APITestCase):
             },
             format="json")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        # Ensure token was created
-        self.assertIsInstance(response.data['access_token'], str)
+        # Ensure token was created correctly
+        self.assertEqual(response.data['access_token'], Token.objects.first().key)
 
 
 class TestAuthRequiredViews(APITestCase):
@@ -94,16 +93,12 @@ class TestAuthRequiredViews(APITestCase):
             username="testuser",
             password="testpass1",
         )
-        self.profile = Profile.objects.create(
-            user=self.user
-        )
-        self.fridge = Fridge.objects.create(
-            owner=self.user
-        )
+        self.profile = Profile.objects.create(user=self.user)
+        self.fridge = Fridge.objects.create(owner=self.user)
 
         # Auth
-        self.token = Token.objects.create(user=self.user).key
-        self.client.credentials(HTTP_AUTHORIZATION=f'Token {self.token}')
+        self.user_token = Token.objects.create(user=self.user).key
+        self.client.credentials(HTTP_AUTHORIZATION=f'Token {self.user_token}')
 
         # Ingredient to test the fridge update
         self.ingredient = Ingredient.objects.create(
@@ -113,21 +108,19 @@ class TestAuthRequiredViews(APITestCase):
             is_veggie=True,
             is_vegan=True
         )
-
         # URLs
         self.detail_url = f"/users/{self.user.username}/"
         self.update_url = f"/users/{self.user.username}/"
         self.profile_url = f"/users/{self.user.username}/profile/"
         self.fridge_url = f"/users/{self.user.username}/fridge/"
-
+        
 
     def test_user_detail(self):
-        # Test request success
         response = self.client.get(self.detail_url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['username'], self.user.username)
 
     def test_update_user(self):
-        # Test request success
         response = self.client.put(
             self.update_url,
             {
@@ -137,9 +130,10 @@ class TestAuthRequiredViews(APITestCase):
             format="json"
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['email'], 'updated_email@gmail.com')
+        self.assertEqual(response.data['username'], 'updated_username')
 
     def test_partial_update_user(self):
-        # Test request success
         response = self.client.patch(
             self.update_url,
             {
@@ -148,33 +142,33 @@ class TestAuthRequiredViews(APITestCase):
             format="json"
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['username'], 'partial_updated_username')
         
     def test_update_profile(self):
-        # Test request success
         response = self.client.put(
             self.profile_url,
             {
-                "first_name": "Test",
-                "last_name": "Test",
-                "biography": "Testing put request.."
+                "first_name": "updated_first_name",
+                "last_name": "updated_last_name",
+                "biography": "updated biography"
             },
             format="json"
         )
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.data['profile']['last_name'], 'updated_last_name')
 
     def test_partial_update_profile(self):
-        # Test request success
         response = self.client.patch(
             self.profile_url,
             {
-                "first_name": "Test"
+                "last_name": "updated_last_name"
             },
             format="json"
         )
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.data['profile']['last_name'], 'updated_last_name')
 
     def test_partial_update_fridge(self):
-        # Test request success
         response = self.client.patch(
             self.fridge_url,
             {
@@ -183,3 +177,4 @@ class TestAuthRequiredViews(APITestCase):
             format="json"
         )
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.data['fridge']['ingredients'], [self.ingredient.id])
