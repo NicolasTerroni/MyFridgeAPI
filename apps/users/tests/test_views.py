@@ -81,6 +81,7 @@ class TestNoAuthViews(APITestCase):
             format="json")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         # Ensure token was created and assigned correctly
+        self.assertIsNotNone(response.data['access_token'])
         self.assertEqual(response.data['access_token'], Token.objects.first().key)
         # Auth
         user_token = response.data['access_token']
