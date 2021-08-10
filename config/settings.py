@@ -82,6 +82,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'djongo',
         'NAME': 'my-fridge',
+        'USER': 'my-fridge-admin',
+        'PASSWORD': 'password',
     }
 }
 
